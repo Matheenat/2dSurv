@@ -3,7 +3,7 @@ import pygame # type: ignore
 import math
 from typing import TypedDict
 import constant_value # type: ignore
-
+from sprites import sprite_loader # type: ignore
 class ui():
     class Screen_Config(TypedDict):
         width: int
@@ -15,6 +15,8 @@ class ui():
         self.config = config_data
 
         self.font_dir = os.path.join(constant_value.ASSETS_DIR,"fonts")
+
+        self.sprite_loader = sprite_loader(self.config)
 
         self.ui_scale = self.config.get('ui_scale', 1)
         self.fonts = {
