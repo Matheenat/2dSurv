@@ -1,7 +1,18 @@
 {
+    "paths":{
+        "fonts": "assets/fonts",
+        "player_sprites": "assets/sprites/player",
+        "enemy":"assets/sprites/enemy",
+        "hud":"assets/sprites/hud"
+    },
     "screen":{
         "width" : 1280,
         "height" : 720,
         "fullScreen" : false
+    },
+    "player_sprite":{
+        "player_width" : 128, 
+        "player_height" : 128,
+        "scaling" : 1
     }
 }

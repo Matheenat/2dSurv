@@ -2,7 +2,7 @@ import os
 import pygame # type: ignore
 import math
 from typing import TypedDict
-
+import constant_value 
 class ui():
     class Screen_Config(TypedDict):
         width: int
@@ -14,7 +14,6 @@ class ui():
         self.display_surface = screen
         self.config = config_data
 
-        self.asset_dir = os.path.join(self.base_dir, "assets/sprite")
         self.font_dir = os.path.join(self.base_dir, "assets/fonts")
 
         self.ui_scale = self.config.get('ui_scale', 1)
