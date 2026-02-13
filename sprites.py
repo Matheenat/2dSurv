@@ -4,13 +4,12 @@ import math
 import json
 from typing import TypedDict
 import constant_value # type: ignore
+class sprite_loader_config(TypedDict):
+    width: int
+    height: int
+    scale: int #power of 4 example 4->16->64 , 32 -> 128 -> 256
 
-class sprite_loader():
-    class sprite_loader_config(TypedDict):
-        width: int
-        height: int
-        scale: int #power of 4 example 4->16->64 , 32 -> 128 -> 256
-    
+class sprite_loader(): 
     def __init__(self, config_data: sprite_loader_config):
         self.config = config_data
         self.sprite_dir = os.path.join(constant_value.ASSETS_DIR,"sprite")
@@ -35,6 +34,6 @@ class sprite_loader():
         
         except pygame.error:
             print(f"path : {path} มีปัญหามาแก้ด่วนๆ")
-            placeholder = pygame.Surface((16, 16))
+            placeholder = pygame.Surface((16, 16), pygame.SRCALPHA)
             placeholder.fill((255, 255, 255))
             return placeholder
