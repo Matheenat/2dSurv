@@ -4,16 +4,19 @@ import math
 from typing import TypedDict
 import constant_value # type: ignore
 from sprites import sprite_loader # type: ignore
-class ui():
-    class Screen_Config(TypedDict):
-        width: int
-        height: int
-        fullScreen: bool
+#
+# FILE USER UI สำหรับค่าที่ล็อกจอ ห้าม implement ของที่ขยับไปมา เช่น กล้อง, world gen
+#
+class Screen_Config(TypedDict):
+    width: int
+    height: int
+    fullScreen: bool
 
+class ui():
     def __init__(self, screen: pygame.Surface, config_data: Screen_Config): 
         self.display_surface = screen
         self.config = config_data
-
+        self.font_cache = {}
         self.font_dir = os.path.join(constant_value.ASSETS_DIR,"fonts")
 
         self.sprite_loader = sprite_loader(self.config)
@@ -32,17 +35,14 @@ class ui():
         font_key = f"{filename}_{size}"
         if font_key in self.font_cache:
             return self.font_cache[font_key]
+        
         path = os.path.join(self.font_dir, filename)
     
         if os.path.exists(path):
             font_obj = pygame.font.Font(path, size)
-
         else:
             font_obj = pygame.font.SysFont(None, size)
 
-        if os.path.exists(path):
-            return pygame.font.Font(path, size)
-        
         self.font_cache[font_key] = font_obj
         return font_obj
     
