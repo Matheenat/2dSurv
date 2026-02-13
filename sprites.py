@@ -5,13 +5,13 @@ import json
 from typing import TypedDict
 import constant_value # type: ignore
 
-class player():
-    class player_sprite_config(TypedDict):
+class sprite_loader():
+    class sprite_loader_config(TypedDict):
         width: int
         height: int
         scale: int #power of 4 example 4->16->64 , 32 -> 128 -> 256
     
-    def __init__(self, config_data: player_sprite_config):
+    def __init__(self, config_data: sprite_loader_config):
         self.config = config_data
         self.sprite_dir = os.path.join(constant_value.ASSETS_DIR,"sprite")
 
