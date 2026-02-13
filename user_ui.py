@@ -48,8 +48,6 @@ class ui():
     
     
     
-    
-    
 #     screen = pygame.display.set_mode((WIN_W, WIN_H), FLAGS_WINDOWED)
 #     def draw_player_hp_bar(surface, player_rect_screen, hp, hp_max):
 #     w = player_rect_screen.width

@@ -1,7 +1,7 @@
 {
     "paths":{
         "fonts": "assets/fonts",
-        "player_sprites": "assets/sprites/player",
+        "player_sprites": "assets/sprites",
         "enemy":"assets/sprites/enemy",
         "hud":"assets/sprites/hud"
     },
@@ -14,13 +14,15 @@
         "player_width" : 128, 
         "player_height" : 128,
         "direction" : "left",
-        "scaling" : 1
+        "scaling" : 1,
+        "sprite_name" : "hero"
     },
     "player_settings":{
+        "x":0,
+        "y":0,
         "max_hp" : 100,
         "speed" : 10,
         "current_exp": 0,
-        "target_exp": 100,
-        "sprite_name" : "hero"
+        "target_exp": 100
     }
 }

@@ -3,6 +3,8 @@ import pygame  # type: ignore
 import math
 import json
 import user_ui
+from player import Player
+from sprites import sprite_loader # type: ignore
 
 def main():
     pygame.init()
@@ -19,6 +21,12 @@ def main():
 
     clock = pygame.time.Clock()
     game_ui = user_ui.ui(screen, screen_settings)
+    
+    loader = sprite_loader(full_data['player_sprite'])
+    player = Player(screen, loader, full_data)
+
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(player)
 
     running = True
     while running:
@@ -30,8 +38,11 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: 
                     running = False
-
-        clock.tick(60)
+        all_sprites.update()
+        screen.fill((30, 30, 30))
+        all_sprites.draw(screen)
+        
+        clock.tick(30)
 
         pygame.display.flip()
 

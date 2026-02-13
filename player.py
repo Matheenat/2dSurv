@@ -8,7 +8,7 @@ class PlayerState(Enum):
     IDLE = auto()
     WALKING = auto()
     ATTACKING = auto()
-    
+
 class player_config(TypedDict):
     Max_HP : int
     Speed : int
@@ -18,18 +18,20 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, screen: pygame.Surface, sprite_loader, config_data: player_config):
         super().__init__()
         self.config = config_data
-        
-        screen = self.config.get("screen", {})
-        centerX = screen.get("width")/2
-        centerY = screen.get("height")/2
-        self.rect = self.image.get_rect(centerX, centerY)
+        self.screen = screen
 
-        self.pos = pygame.math.Vector2(self.rect(centerX, centerY))
-        self.direction = pygame.math.Vector2(0, 0)
-        
         stats = self.config.get("player_settings",{})
-        sprite_name = stats.get("sprite", "hero.png")
+        sprite_name = stats.get("sprite", "player/hero.png")
         self.image = sprite_loader.load(sprite_name, scale=True)
+
+        screen_cfg = self.config.get("screen", {})
+        centerX = screen_cfg.get("width", 1280)/2
+        centerY = screen_cfg.get("height", 800)/2
+
+        self.rect = self.image.get_rect(center=(centerX, centerY))
+        self.pos = pygame.math.Vector2(self.rect.center)
+        self.vector = pygame.math.Vector2(0, 0)
+
         self.facing = 'left'
         self.max_hp = stats.get("max_hp", 100)
         self.speed = stats.get("speed", 5)
@@ -38,5 +40,25 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, flip_x=True, flip_y=False)
 
     def handle_inputs(self):
-         key = pygame.key.get_pressed()
-         self.direction.update(0, 0)
+        key = pygame.key.get_pressed()
+        self.vector.update(0, 0)
+        if key[pygame.K_w]: self.vector.y -= 1
+        if key[pygame.K_a]: self.vector.x -= 1
+        if key[pygame.K_s]: self.vector.y += 1
+        if key[pygame.K_d]: self.vector.x += 1
+
+        if self.vector.x > 0 and self.facing == 'left':
+            self.facing = 'right'
+            self.flip_image()
+        elif self.vector.x < 0 and self.facing == 'right':
+            self.facing = 'left'
+            self.flip_image()
+
+    def update(self):
+        self.handle_inputs()
+        if self.vector.magnitude() > 0:
+            self.vector = self.vector.normalize()
+            velocity = self.vector * self.speed
+            self.pos += velocity
+            
+        self.rect.center = (round(self.pos.x), round(self.pos.y))
