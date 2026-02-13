@@ -2,7 +2,8 @@ import os
 import pygame # type: ignore
 import math
 from typing import TypedDict
-import constant_value 
+import constant_value # type: ignore
+
 class ui():
     class Screen_Config(TypedDict):
         width: int
@@ -10,11 +11,10 @@ class ui():
         fullScreen: bool
 
     def __init__(self, screen: pygame.Surface, config_data: Screen_Config): 
-        self.base_dir = os.path.dirname(__file__)
         self.display_surface = screen
         self.config = config_data
 
-        self.font_dir = os.path.join(self.base_dir, "assets/fonts")
+        self.font_dir = os.path.join(constant_value.ASSETS_DIR,"fonts")
 
         self.ui_scale = self.config.get('ui_scale', 1)
         self.fonts = {
@@ -27,10 +27,22 @@ class ui():
         
     
     def load_font(self, filename, size):
+        font_key = f"{filename}_{size}"
+        if font_key in self.font_cache:
+            return self.font_cache[font_key]
         path = os.path.join(self.font_dir, filename)
+    
+        if os.path.exists(path):
+            font_obj = pygame.font.Font(path, size)
+
+        else:
+            font_obj = pygame.font.SysFont(None, size)
+
         if os.path.exists(path):
             return pygame.font.Font(path, size)
-        return pygame.font.SysFont(None, size)
+        
+        self.font_cache[font_key] = font_obj
+        return font_obj
     
     
     
