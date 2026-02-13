@@ -13,7 +13,7 @@ class sprite_loader():
     def __init__(self, config_data: sprite_loader_config):
         self.config = config_data
         self.sprite_dir = os.path.join(constant_value.ASSETS_DIR,"sprite")
-
+        self.ui_scale = config_data.get('scale', 1)
         self.player = self.config.get('player', 1) #todo
 
         self.cache = {}

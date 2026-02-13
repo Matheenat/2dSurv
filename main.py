@@ -15,10 +15,14 @@ def main():
     screen_height = screen_settings['height']
 
     screen = pygame.display.set_mode((screen_width, screen_height))
+    pygame.display.set_caption("Survive from Mons Ver0.1")
+
+    clock = pygame.time.Clock()
     game_ui = user_ui.ui(screen, screen_settings)
 
     running = True
     while running:
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -26,6 +30,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: 
                     running = False
+
+        clock.tick(60)
 
         pygame.display.flip()
 
