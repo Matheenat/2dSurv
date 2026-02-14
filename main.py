@@ -5,7 +5,8 @@ import json
 import user_ui
 from player import Player
 from sprites import sprite_loader # type: ignore
-
+from camera import CameraGroup # type: ignore
+import random
 def main():
     pygame.init()
 
@@ -25,8 +26,17 @@ def main():
     loader = sprite_loader(full_data['player_sprite'])
     player = Player(screen, loader, full_data)
 
-    all_sprites = pygame.sprite.Group()
+    all_sprites = CameraGroup()
     all_sprites.add(player)
+
+    for i in range(20):
+        random_x = random.randint(-1000, 1000)
+        random_y = random.randint(-1000, 1000)
+        
+        test_sprite = pygame.sprite.Sprite(all_sprites)
+        test_sprite.image = pygame.Surface((50, 50))
+        test_sprite.image.fill((100, 100, 100))
+        test_sprite.rect = test_sprite.image.get_rect(center=(random_x, random_y))
 
     running = True
     while running:
@@ -38,11 +48,15 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: 
                     running = False
+
         all_sprites.update()
-        screen.fill((30, 30, 30))
-        all_sprites.draw(screen)
+        screen.fill((0, 0, 0))
+        all_sprites.custom_draw(player)
         
-        clock.tick(30)
+        if full_data['debug']['speedNum'] == 1:
+            game_ui.draw_debug(screen, "speed", player.current_speed, (1,screen_width/2))
+
+        clock.tick(60) / 1000 #seconds
 
         pygame.display.flip()
 

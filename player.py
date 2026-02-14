@@ -35,6 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'left'
         self.max_hp = stats.get("max_hp", 100)
         self.speed = stats.get("speed", 5)
+        self.current_speed = stats.get("current_speed", 0)
 
     def flip_image(self):
         self.image = pygame.transform.flip(self.image, flip_x=True, flip_y=False)
@@ -57,8 +58,10 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.handle_inputs()
         if self.vector.magnitude() > 0:
-            self.vector = self.vector.normalize()
-            velocity = self.vector * self.speed
+            velocity = self.vector.normalize() * self.speed
             self.pos += velocity
+            self.current_speed = velocity.magnitude()
+        else:
+            self.current_speed = 0
             
         self.rect.center = (round(self.pos.x), round(self.pos.y))

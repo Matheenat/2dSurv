@@ -21,8 +21,12 @@
         "x":0,
         "y":0,
         "max_hp" : 100,
-        "speed" : 10,
+        "speed" : 3,
+        "current_speed": 0,
         "current_exp": 0,
         "target_exp": 100
+    },
+    "debug":{
+        "speedNum": 1
     }
 }

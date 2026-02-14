@@ -5,7 +5,7 @@ from typing import TypedDict
 import constant_value # type: ignore
 from sprites import sprite_loader # type: ignore
 #
-# FILE USER UI สำหรับค่าที่ล็อกจอ ห้าม implement ของที่ขยับไปมา เช่น กล้อง, world gen
+# FILE USER UI สำหรับ UI อย่างเดียวใครทำอย่างอื่นขอให้แฟนไม่รัก
 #
 class Screen_Config(TypedDict):
     width: int
@@ -46,6 +46,9 @@ class ui():
         self.font_cache[font_key] = font_obj
         return font_obj
     
+    def draw_debug(self, surface, label, value, position):
+        text_surface = self.fonts['ui'].render(f"{label}: {round(value, 2)}", True, (255, 255, 255))
+        surface.blit(text_surface, position)
     
     
 #     screen = pygame.display.set_mode((WIN_W, WIN_H), FLAGS_WINDOWED)
