@@ -1,9 +1,6 @@
 import pygame
-
-def get_y_coordinate(sprite):
-    return sprite.rect.centery
     
-class CameraGroup(pygame.sprite.Group):
+class CameraGroup(pygame.sprite.LayeredUpdates):
     def __init__(self):
         super().__init__()
         self.display_surface = pygame.display.get_surface()
@@ -18,12 +15,10 @@ class CameraGroup(pygame.sprite.Group):
 
     def custom_draw(self, player):
         self.center_target_camera(player)
+        
+        for sprite in self.sprites():
+            self.change_layer(sprite, sprite.rect.bottom)
 
         for sprite in self.sprites():
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image, offset_pos)
-        
-        sorted_sprites = sorted(self.sprites(), key=get_y_coordinate)
-        for sprite in sorted_sprites:
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
