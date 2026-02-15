@@ -8,25 +8,26 @@
     "screen":{
         "width" : 1280,
         "height" : 800,
-        "fullScreen" : false
+        "fullScreen" : "False"
     },
     "player_sprite":{
         "player_width" : 128, 
         "player_height" : 128,
         "direction" : "left",
-        "scaling" : 1,
+        "scale" : 1,
         "sprite_name" : "hero"
     },
     "player_settings":{
         "x":0,
         "y":0,
         "max_hp" : 100,
-        "speed" : 3,
+        "speed" : 10,
         "current_speed": 0,
         "current_exp": 0,
         "target_exp": 100
     },
     "debug":{
-        "speedNum": 1
+        "speed": "True",
+        "size": "True"
     }
 }

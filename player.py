@@ -1,9 +1,10 @@
-import pygame # type: ignore
+import pygame 
 import math
 from typing import TypedDict
-import constant_value # type: ignore
-from sprites import sprite_loader # type: ignore
+import constant_value 
+from sprites import sprite_loader 
 from enum import Enum, auto
+
 class PlayerState(Enum):
     IDLE = auto()
     WALKING = auto()
@@ -29,6 +30,7 @@ class Player(pygame.sprite.Sprite):
         centerY = screen_cfg.get("height", 800)/2
 
         self.rect = self.image.get_rect(center=(centerX, centerY))
+        
         self.pos = pygame.math.Vector2(self.rect.center)
         self.vector = pygame.math.Vector2(0, 0)
 

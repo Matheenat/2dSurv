@@ -1,13 +1,13 @@
 import os
-import pygame # type: ignore
+import pygame 
 import math
 import json
 from typing import TypedDict
-import constant_value # type: ignore
+import constant_value 
 class sprite_loader_config(TypedDict):
     width: int
     height: int
-    scale: int #power of 4 example 4->16->64 , 32 -> 128 -> 256
+    scale: int 
 
 class sprite_loader(): 
     def __init__(self, config_data: sprite_loader_config):
@@ -22,13 +22,14 @@ class sprite_loader():
         if filename in self.cache:
             return self.cache[filename]
         path = os.path.join(self.sprite_dir,filename)
+
         try:
             sprite = pygame.image.load(path).convert_alpha()
             if scale and self.ui_scale != 1:
-                width = int(sprite.get_width() * self.ui_scale)
-                height = int(sprite.get_height() * self.ui_scale)
-                sprite = pygame.transform.scale(sprite, (width, height))
-                
+                new_width = int(sprite.get_width() * self.ui_scale)
+                new_height = int(sprite.get_height() * self.ui_scale)
+                sprite = pygame.transform.scale(sprite, (new_width, new_height))
+
             self.cache[filename] = sprite
             return sprite       
         

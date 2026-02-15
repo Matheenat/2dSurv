@@ -1,11 +1,11 @@
 import os
-import pygame  # type: ignore
+import pygame 
 import math
 import json
 import user_ui
 from player import Player
-from sprites import sprite_loader # type: ignore
-from camera import CameraGroup # type: ignore
+from sprites import sprite_loader 
+from camera import CameraGroup 
 import random
 def main():
     pygame.init()
@@ -25,6 +25,9 @@ def main():
     
     loader = sprite_loader(full_data['player_sprite'])
     player = Player(screen, loader, full_data)
+    print(f"Rect Width: {player.rect.width}")
+    print(f"Rect Height: {player.rect.height}")
+    print(f"Image Width: {player.image.get_width()}")
 
     all_sprites = CameraGroup()
     all_sprites.add(player)
@@ -53,7 +56,7 @@ def main():
         screen.fill((0, 0, 0))
         all_sprites.custom_draw(player)
         
-        if full_data['debug']['speedNum'] == 1:
+        if full_data['debug']['speed'] == "True":
             game_ui.draw_debug(screen, "speed", player.current_speed, (1,screen_width/2))
 
         clock.tick(60) / 1000 #seconds

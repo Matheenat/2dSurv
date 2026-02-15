@@ -1,9 +1,9 @@
 import os
-import pygame # type: ignore
+import pygame 
 import math
 from typing import TypedDict
-import constant_value # type: ignore
-from sprites import sprite_loader # type: ignore
+import constant_value 
+from sprites import sprite_loader 
 #
 # FILE USER UI สำหรับ UI อย่างเดียวใครทำอย่างอื่นขอให้แฟนไม่รัก
 #
