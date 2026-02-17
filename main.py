@@ -1,12 +1,11 @@
-import os
 import pygame 
-import math
 import json
 import user_ui
 from player import Player
 from sprites import sprite_loader 
 from camera import CameraGroup 
 import random
+
 def main():
     pygame.init()
 

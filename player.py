@@ -1,8 +1,5 @@
 import pygame 
-import math
 from typing import TypedDict
-import constant_value 
-from sprites import sprite_loader 
 from enum import Enum, auto
 
 class PlayerState(Enum):
@@ -45,10 +42,14 @@ class Player(pygame.sprite.Sprite):
     def handle_inputs(self):
         key = pygame.key.get_pressed()
         self.vector.update(0, 0)
-        if key[pygame.K_w]: self.vector.y -= 1
-        if key[pygame.K_a]: self.vector.x -= 1
-        if key[pygame.K_s]: self.vector.y += 1
-        if key[pygame.K_d]: self.vector.x += 1
+        if key[pygame.K_w]: 
+            self.vector.y -= 1
+        if key[pygame.K_a]: 
+            self.vector.x -= 1
+        if key[pygame.K_s]: 
+            self.vector.y += 1
+        if key[pygame.K_d]: 
+            self.vector.x += 1
 
         if self.vector.x > 0 and self.facing == 'left':
             self.facing = 'right'

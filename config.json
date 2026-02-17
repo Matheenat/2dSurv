@@ -29,5 +29,13 @@
     "debug":{
         "speed": "True",
         "size": "True"
+    },
+    "algorithm":{
+        "brute force": "False",
+        "space partioning": "False",
+        "pygame rect collision": "False",
+        "pygame circle collision": "False",
+        "separating axis theorem": "False",
+        "quadtrees": "False"
     }
 }

@@ -1,7 +1,5 @@
 import os
 import pygame 
-import math
-import json
 from typing import TypedDict
 import constant_value 
 class sprite_loader_config(TypedDict):
