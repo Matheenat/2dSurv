@@ -11,9 +11,7 @@
         "fullScreen" : "False"
     },
     "player_sprite":{
-        "player_width" : 128, 
-        "player_height" : 128,
-        "direction" : "left",
+        "direction" : "right",
         "scale" : 1,
         "sprite_name" : "hero"
     },
@@ -22,9 +20,19 @@
         "y":0,
         "max_hp" : 100,
         "speed" : 10,
-        "current_speed": 0,
         "current_exp": 0,
         "target_exp": 100
+    },
+    "enemy_sprite":{
+        "direction" : "left",
+        "scale" : 1,
+        "sprite_name" : "slime"
+    },
+    "enemy_setting":{
+        "x": 0,
+        "y": 0,
+        "max_hp": 100,
+        "speed": 0
     },
     "debug":{
         "speed": "True",

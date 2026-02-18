@@ -1,4 +1,4 @@
-import pygame 
+import pygame # type: ignore
 from typing import TypedDict
 from enum import Enum, auto
 
@@ -18,8 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.config = config_data
         self.screen = screen
 
-        stats = self.config.get("player_settings",{})
-        sprite_name = stats.get("sprite", "player/hero.png")
+        data = self.config.get("player_settings",{})
+        sprite_name = data.get("sprite", "player/hero.png")
         self.image = sprite_loader.load(sprite_name, scale=True)
 
         screen_cfg = self.config.get("screen", {})
@@ -32,9 +32,8 @@ class Player(pygame.sprite.Sprite):
         self.vector = pygame.math.Vector2(0, 0)
 
         self.facing = 'left'
-        self.max_hp = stats.get("max_hp", 100)
-        self.speed = stats.get("speed", 5)
-        self.current_speed = stats.get("current_speed", 0)
+        self.max_hp = data.get("max_hp", 100)
+        self.speed = data.get("speed", 5)
 
     def flip_image(self):
         self.image = pygame.transform.flip(self.image, flip_x=True, flip_y=False)
@@ -51,11 +50,12 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_d]: 
             self.vector.x += 1
 
-        if self.vector.x > 0 and self.facing == 'left':
-            self.facing = 'right'
-            self.flip_image()
-        elif self.vector.x < 0 and self.facing == 'right':
+        if self.vector.x > 0 and self.facing == 'right':
             self.facing = 'left'
+            self.flip_image()
+
+        elif self.vector.x < 0 and self.facing == 'left':
+            self.facing = 'right'
             self.flip_image()
 
     def update(self):
