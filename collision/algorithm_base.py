@@ -17,16 +17,22 @@ class CollisionAlgorithm:
             overlapy = ((A.rect.height/2 + B.rect.height/2) - abs(dy))
 
             if overlapx < overlapy:
-                if dx > 0: 
-                    A.rect.x += overlapx
-                else: 
-                    A.rect.x -= overlapx
+                push = overlapx / 2
+                if dx > 0:
+                    A.rect.x += push
+                    B.rect.x -= push
+                else:
+                    A.rect.x -= push
+                    B.rect.x += push
                     
             else:
+                push = overlapy / 2
                 if dy > 0:
-                    A.rect.y += overlapy
-                else: 
-                    A.rect.y -= overlapy
+                    A.rect.y += push
+                    B.rect.y -= push
+                else:
+                    A.rect.y -= push
+                    B.rect.y += push
 
             if hasattr(A, 'pos'):
                 A.pos.x = A.rect.x

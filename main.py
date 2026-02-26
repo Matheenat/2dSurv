@@ -31,7 +31,7 @@ def main():
     all_sprites = CameraGroup()
     all_sprites.add(player)
 
-    num_enemies = 10
+    num_enemies = 100
     enemy_group = pygame.sprite.Group()
     spawn_delay = 50
     last_spawn_time = pygame.time.get_ticks()
@@ -67,6 +67,9 @@ def main():
         
         if full_data['debug']['speed'] == "True":
             game_ui.draw_debug(screen, "speed", player.current_speed, (1,screen_width/2))
+
+        if full_data['debug']['checks'] == "True":
+            game_ui.draw_debug(screen, "checks", col_manager.get_checks(), (1,(screen_width/2) + 5))
 
         clock.tick(60) / 1000 #seconds
 

@@ -35,7 +35,8 @@
         "speed": 0
     },
     "debug":{
-        "speed": "True",
-        "size": "True"
+        "speed": "False",
+        "size": "True",
+        "checks": "True"
     }
 }
