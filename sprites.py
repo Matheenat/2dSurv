@@ -1,5 +1,5 @@
 import os
-import pygame 
+import pygame # type: ignore
 from typing import TypedDict
 import constant_value 
 class sprite_loader_config(TypedDict):

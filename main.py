@@ -6,6 +6,8 @@ from sprites import sprite_loader
 from camera import CameraGroup 
 import random
 from enemy import Enemy
+from collision.rect import mycustomrect
+from collision.collision_manager import CollisionManager
 
 def main():
     pygame.init()
@@ -25,27 +27,16 @@ def main():
     
     loader = sprite_loader(full_data['player_sprite'])
     player = Player(screen, loader, full_data)
-    # print(f"Rect Width: {player.rect.width}")
-    # print(f"Rect Height: {player.rect.height}")
-    # print(f"Image Width: {player.image.get_width()}")
 
     all_sprites = CameraGroup()
     all_sprites.add(player)
 
-    # for i in range(20):
-    #     random_x = random.randint(-1000, 1000)
-    #     random_y = random.randint(-1000, 1000)
-        
-    #     test_sprite = pygame.sprite.Sprite(all_sprites)
-    #     test_sprite.image = pygame.Surface((50, 50))
-    #     test_sprite.image.fill((100, 100, 100))
-    #     test_sprite.rect = test_sprite.image.get_rect(center=(random_x, random_y))
-    num_enemies = 50 
+    num_enemies = 10
     enemy_group = pygame.sprite.Group()
-    for i in range(num_enemies):
-        new_enemy = Enemy(screen, loader, full_data)
-        enemy_group.add(new_enemy)
-        all_sprites.add(new_enemy)
+    spawn_delay = 50
+    last_spawn_time = pygame.time.get_ticks()
+
+    col_manager = CollisionManager()
 
     running = True
     while running:
@@ -58,8 +49,18 @@ def main():
                 if event.key == pygame.K_ESCAPE: 
                     running = False
 
+        current_time = pygame.time.get_ticks()
+        if len(enemy_group) < num_enemies:
+            if current_time - last_spawn_time > spawn_delay:
+                new_enemy = Enemy(screen, loader, full_data)
+                enemy_group.add(new_enemy)
+                all_sprites.add(new_enemy)
+
+                last_spawn_time = current_time
+
         player.update()
         enemy_group.update(player.pos)
+        col_manager.update(player, enemy_group)
 
         screen.fill((0, 0, 0))
         all_sprites.custom_draw(player)

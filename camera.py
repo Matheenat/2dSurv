@@ -1,5 +1,5 @@
-import pygame
-    
+import pygame # type: ignore
+from collision.rect import mycustomrect
 class CameraGroup(pygame.sprite.LayeredUpdates):
     def __init__(self):
         super().__init__()

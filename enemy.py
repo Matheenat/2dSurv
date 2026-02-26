@@ -6,6 +6,7 @@ import constant_value
 from sprites import sprite_loader 
 from enum import Enum, auto
 import random
+from collision.rect import mycustomrect
 
 class EnemyState(Enum):
     Idle = auto()
@@ -32,10 +33,10 @@ class Enemy(pygame.sprite.Sprite):
 
         screen_cfg = self.config.get("screen", {})
 
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(0, width - self.rect.width)
-        self.rect.y = random.randint(0, height - self.rect.height)
-
+        start_x = random.randint(0, width - self.image.get_width())
+        start_y = random.randint(0, height - self.image.get_height())
+        self.rect = mycustomrect(start_x, start_y, self.image.get_width(), self.image.get_height())
+    
         self.state = random.choice([EnemyState.Idle, EnemyState.Chase])
 
         self.speed = data.get("Speed", 2)

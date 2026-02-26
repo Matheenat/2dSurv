@@ -1,6 +1,7 @@
 import pygame # type: ignore
 from typing import TypedDict
 from enum import Enum, auto
+from collision.rect import mycustomrect
 
 class PlayerState(Enum):
     IDLE = auto()
@@ -26,9 +27,9 @@ class Player(pygame.sprite.Sprite):
         centerX = screen_cfg.get("width", 1280)/2
         centerY = screen_cfg.get("height", 800)/2
 
-        self.rect = self.image.get_rect(center=(centerX, centerY))
+        self.rect = mycustomrect(centerX, centerY, self.image.get_width(), self.image.get_height())
         
-        self.pos = pygame.math.Vector2(self.rect.center)
+        self.pos = pygame.math.Vector2(self.rect.x, self.rect.y)
         self.vector = pygame.math.Vector2(0, 0)
 
         self.facing = 'left'
@@ -66,5 +67,7 @@ class Player(pygame.sprite.Sprite):
             self.current_speed = velocity.magnitude()
         else:
             self.current_speed = 0
-            
-        self.rect.center = (round(self.pos.x), round(self.pos.y))
+        
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
+        
