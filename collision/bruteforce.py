@@ -1,6 +1,9 @@
 from .algorithm_base import CollisionAlgorithm
 
 class BruteForce(CollisionAlgorithm):
+    def __init__(self):
+        super().__init__()
+        
     def run(self, player, enemies):
         self.checks = 0
         enemies = enemies.sprites()
