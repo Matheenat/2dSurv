@@ -69,7 +69,7 @@ def main():
             game_ui.draw_debug(screen, "speed", player.current_speed, (1,screen_width/2))
 
         if full_data['debug']['checks'] == "True":
-            game_ui.draw_debug(screen, "checks", col_manager.get_checks(), (1,(screen_width/2) + 5))
+            game_ui.draw_debug(screen, "checks", col_manager.get_checks(player, enemy_group), (1,(screen_width/2) + 5))
 
         clock.tick(60) / 1000 #seconds
 

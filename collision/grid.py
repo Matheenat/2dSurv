@@ -13,7 +13,7 @@ class Grid(CollisionAlgorithm):
         self.grid.clear()
 
     def register(self):
-        enemies = enemies.sprites()
+        enemies = enemies.sprites() #todo
 
     def run(self):
         raise Exception("Forgot to override run() in child") 

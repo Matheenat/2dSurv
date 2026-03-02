@@ -7,4 +7,4 @@ class NineNeighbor(Grid):
     def run(self, player, enemies):
         self.checks = 0
         self.grid.clear()
-        enemies = enemies.sprites()
+        

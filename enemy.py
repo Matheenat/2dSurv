@@ -23,15 +23,13 @@ class Enemy(pygame.sprite.Sprite):
         self.config = config_data
         self.screen = screen
 
-        screen_data = self.config.get("screen", {"width": 1280, "height": 800})
+        screen_data = self.config.get("screen", {"width": 1280, "height": 768})
         width = screen_data['width']
         height = screen_data['height']
 
         data = self.config.get("enemy_setting",{})
         sprite_name = data.get("sprite", "enemy/slime.png")
         self.image = sprite_loader.load(sprite_name, scale=True)
-
-        screen_cfg = self.config.get("screen", {})
 
         start_x = random.randint(0, width - self.image.get_width())
         start_y = random.randint(0, height - self.image.get_height())
@@ -41,7 +39,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.speed = data.get("Speed", 2)
         self.direction = pygame.math.Vector2(0, 0)
-    
+  
     def update(self, player_pos):
         if self.state == EnemyState.Chase:
             enemy_vec = pygame.math.Vector2(self.rect.center)
