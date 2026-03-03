@@ -32,7 +32,8 @@
         "x": 0,
         "y": 0,
         "max_hp": 100,
-        "speed": 0
+        "speed": 0,
+        "enemy_num": 100
     },
     "debug":{
         "speed": "False",

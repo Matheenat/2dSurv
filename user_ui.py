@@ -12,9 +12,13 @@ class Screen_Config(TypedDict):
     fullScreen: bool
 
 class ui():
-    def __init__(self, screen: pygame.Surface, config_data: Screen_Config): 
-        self.display_surface = screen
-        self.config = config_data
+    def __init__(self, surface: pygame.Surface, screen_config: Screen_Config, debug_config): 
+        self.screen = surface
+        self.config = screen_config
+        self.debug_settings = debug_config
+        self.screen_height = self.screen.get_height()
+        self.screen_width = self.screen.get_width()
+
         self.font_cache = {}
         self.font_dir = os.path.join(constant_value.ASSETS_DIR,"fonts")
 
@@ -53,10 +57,29 @@ class ui():
         text_surface = self.fonts['ui'].render(f"{label}: {text}", True, (255, 255, 255))
         surface.blit(text_surface, position)
 
-    def draw_grid(self, width, height, surface):  
+    def draw_grid(self, height, width, surface):  
         self.cell_size = 128
         for x in range(0, width, self.cell_size):
             pygame.draw.line(surface, (100, 100, 100), (x, 0), (x, height))
             
         for y in range(0, height, self.cell_size):
             pygame.draw.line(surface, (100, 100, 100), (0, y), (width, y))
+    
+    def draw_all_debug(self, player, col_manager, enemy_group):
+        self.current_y = 20
+        x_pos = 50
+
+        if self.debug_settings.get('speed') == "True":
+            self.draw_debug(self.screen, "Speed", player.current_speed, (x_pos, self.current_y))
+            self.current_y += 30
+
+        if self.debug_settings.get('checks') == "True":
+            self.draw_debug(self.screen, "Checks", col_manager.get_checks(player, enemy_group), (x_pos, self.current_y))
+            self.current_y += 30
+
+        if self.debug_settings.get('current_mode') == "True":
+            self.draw_mode(self.screen, "Current Mode", col_manager.active_mode.__class__.__name__, (x_pos, self.current_y))
+            self.current_y += 30
+
+        if self.debug_settings.get('9Ngrid') == "True":
+            self.draw_grid(self.screen_height, self.screen_width, self.screen)

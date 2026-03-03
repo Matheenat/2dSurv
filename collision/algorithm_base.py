@@ -4,7 +4,7 @@ class CollisionAlgorithm:
     def __init__(self):
         self.checks = 0
     
-    def AABB(self, A, B):
+    def AABB(self, A, B, player=None):
         if (A.rect.right > B.rect.left and 
             A.rect.left < B.rect.right and 
             A.rect.bottom > B.rect.top and
@@ -17,29 +17,29 @@ class CollisionAlgorithm:
             overlapy = ((A.rect.height/2 + B.rect.height/2) - abs(dy))
 
             if overlapx < overlapy:
-                push = overlapx / 2
-                if dx > 0:
-                    A.rect.x += push
-                    B.rect.x -= push
+                if A is player:
+                    B.rect.x -= overlapx if dx > 0 else -overlapx
+                elif B is player:
+                    A.rect.x += overlapx if dx > 0 else -overlapx
                 else:
-                    A.rect.x -= push
-                    B.rect.x += push
-                    
+                    push = overlapx / 2
+                    change = push if dx > 0 else -push
+                    A.rect.x += change
+                    B.rect.x -= change
             else:
-                push = overlapy / 2
-                if dy > 0:
-                    A.rect.y += push
-                    B.rect.y -= push
+                if A is player:
+                    B.rect.y -= overlapy if dy > 0 else -overlapy
+                elif B is player:
+                    A.rect.y += overlapy if dy > 0 else -overlapy
                 else:
-                    A.rect.y -= push
-                    B.rect.y += push
+                    push = overlapy / 2
+                    change = push if dy > 0 else -push
+                    A.rect.y += change
+                    B.rect.y -= change
 
-            if hasattr(A, 'pos'):
-                A.pos.x = A.rect.x
-                A.pos.y = A.rect.y
-            if hasattr(B, 'pos'):
-                B.pos.x = B.rect.x
-                B.pos.y = B.rect.y
+            for obj in [A, B]:
+                if hasattr(obj, 'pos'):
+                    obj.pos.x, obj.pos.y = obj.rect.x, obj.rect.y
 
             return True
         return False
