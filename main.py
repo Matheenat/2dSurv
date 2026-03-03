@@ -49,6 +49,8 @@ def main():
                 if event.key == pygame.K_ESCAPE: 
                     running = False
 
+            col_manager.input_handle(event)
+
         current_time = pygame.time.get_ticks()
         if len(enemy_group) < num_enemies:
             if current_time - last_spawn_time > spawn_delay:
@@ -63,13 +65,18 @@ def main():
         col_manager.update(player, enemy_group)
 
         screen.fill((0, 0, 0))
+        # game_ui.draw_grid(screen_width, screen_height, screen)
+
         all_sprites.custom_draw(player)
         
         if full_data['debug']['speed'] == "True":
-            game_ui.draw_debug(screen, "speed", player.current_speed, (1,screen_width/2))
+            game_ui.draw_debug(screen, "speed", player.current_speed, (30,screen_width/2))
 
         if full_data['debug']['checks'] == "True":
-            game_ui.draw_debug(screen, "checks", col_manager.get_checks(player, enemy_group), (1,(screen_width/2) + 5))
+            game_ui.draw_debug(screen, "Checks", col_manager.get_checks(player, enemy_group), (30,(screen_width/2)))
+
+        if full_data['debug']['current_mode'] == "True":
+            game_ui.draw_mode(screen, "Current Mode", col_manager.active_mode.__class__.__name__, (30,(screen_width/2) - 30))
 
         clock.tick(60) / 1000 #seconds
 

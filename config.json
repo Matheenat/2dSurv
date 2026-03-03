@@ -6,8 +6,8 @@
         "hud":"assets/sprites/hud"
     },
     "screen":{
-        "width" : 1280,
-        "height" : 768,
+        "width" : 1408,
+        "height" : 896,
         "fullScreen" : "False"
     },
     "player_sprite":{
@@ -36,7 +36,7 @@
     },
     "debug":{
         "speed": "False",
-        "size": "True",
+        "current_mode": "True",
         "checks": "True"
     }
 }

@@ -36,6 +36,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = mycustomrect(start_x, start_y, self.image.get_width(), self.image.get_height())
     
         self.state = random.choice([EnemyState.Idle, EnemyState.Chase])
+        # self.state = EnemyState.Chase
 
         self.speed = data.get("Speed", 2)
         self.direction = pygame.math.Vector2(0, 0)
