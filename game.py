@@ -8,6 +8,7 @@ import random
 from enemy import Enemy
 from collision.rect import mycustomrect
 from collision.collision_manager import CollisionManager
+from background import Background
 
 class Game:
     def __init__(self):
@@ -36,6 +37,8 @@ class Game:
         self.last_spawn_time = pygame.time.get_ticks()
         self.num_enemies = self.data['enemy_setting']['enemy_num']
 
+        self.background = Background(64)
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -63,6 +66,7 @@ class Game:
 
     def draw(self):
         self.screen.fill((0, 0, 0))
+        self.background.draw(self.screen,self.all_sprites.offset.x,self.all_sprites.offset.y)
         self.all_sprites.custom_draw(self.player)
         self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group)
         self.clock.tick(60)
