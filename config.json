@@ -38,6 +38,7 @@
     "debug":{
         "speed": "False",
         "current_mode": "True",
-        "checks": "True"
+        "checks": "True",
+        "fps": "True"
     }
 }

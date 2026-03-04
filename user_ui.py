@@ -65,7 +65,7 @@ class ui():
         for y in range(0, height, self.cell_size):
             pygame.draw.line(surface, (100, 100, 100), (0, y), (width, y))
     
-    def draw_all_debug(self, player, col_manager, enemy_group):
+    def draw_all_debug(self, player, col_manager, enemy_group, fps):
         self.current_y = 20
         x_pos = 50
 
@@ -83,3 +83,7 @@ class ui():
 
         if self.debug_settings.get('9Ngrid') == "True":
             self.draw_grid(self.screen_height, self.screen_width, self.screen)
+
+        if self.debug_settings.get('fps') == "True":
+            self.draw_debug(self.screen, "FPS", fps, (x_pos, self.current_y))
+            self.current_y += 30
