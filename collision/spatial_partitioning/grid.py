@@ -1,4 +1,4 @@
-from .algorithm_base import CollisionAlgorithm
+from collision.algorithm_base import CollisionAlgorithm
 
 class Grid(CollisionAlgorithm):
     def __init__(self, cell_size = 128):

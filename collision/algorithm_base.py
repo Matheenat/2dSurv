@@ -44,5 +44,5 @@ class CollisionAlgorithm:
             return True
         return False
     
-    def run(self, player, enemies):
+    def run(self, player, enemies, screen_rect):
         raise Exception("Forgot to override run()")

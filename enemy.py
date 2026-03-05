@@ -38,7 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         # self.state = random.choice([EnemyState.Idle, EnemyState.Chase])
         self.state = EnemyState.Chase
 
-        self.speed = data.get("Speed", 2)
+        self.speed = data.get("Speed", 1)
         self.direction = pygame.math.Vector2(0, 0)
   
     def update(self, player_pos):

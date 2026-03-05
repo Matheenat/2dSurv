@@ -33,11 +33,16 @@
         "y": 0,
         "max_hp": 100,
         "speed": 0,
-        "enemy_num": 100
+        "enemy_limit": 1
     },
     "debug":{
-        "speed": "False",
-        "current_mode": "True",
-        "checks": "True"
+        "fps": true,
+        "enemy": true,
+        "speed": false,
+        "current_mode": true,
+        "checks": true,
+        "9Ngrid": false,
+        "dualgrid": false,
+        "quad_tree": true
     }
 }

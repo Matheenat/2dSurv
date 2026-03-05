@@ -19,7 +19,7 @@ class OffSetGrid(Grid):
         
         return temp_grid, player_coord
     
-    def run(self, player, enemies):
+    def run(self, player, enemies, screen_rect):
         self.gridA, _ = self.register(player, enemies, 0)
         self.gridB, _ = self.register(player, enemies, self.cell_size // 2)
 
@@ -54,29 +54,3 @@ class OffSetGrid(Grid):
                     if enemy is not player:
                         self.checks += 1
                         self.AABB(player, enemy)
-
-
-
-
-    def draw_debug(self, surface, current_collision_mode, cell_size):
-        if current_collision_mode.__class__.__name__ != "OffSetGrid":
-            return
-
-        screen_width = surface.get_width()
-        screen_height = surface.get_height()
-
-        origin_x, origin_y = 0, 0 
-        
-        red = (255, 0, 0, 100) 
-        blue = (0, 0, 255, 100) 
-
-        def draw_grid_lines(offset, color):
-            for x in range(origin_x - offset, screen_width, cell_size):
-                pygame.draw.line(surface, color, (x, 0), (x, screen_height), 1)
-
-            for y in range(origin_y - offset, screen_height, cell_size):
-                pygame.draw.line(surface, color, (0, y), (screen_width, y), 1)
-
-        draw_grid_lines(0, red)
-        half = cell_size // 2
-        draw_grid_lines(half, blue)

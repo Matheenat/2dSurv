@@ -4,7 +4,7 @@ class BruteForce(CollisionAlgorithm):
     def __init__(self):
         super().__init__()
         
-    def run(self, player, enemies):
+    def run(self, player, enemies, screen_rect):
         self.checks = 0
         enemies = enemies.sprites()
         num_enemies = len(enemies)

@@ -65,21 +65,34 @@ class ui():
         for y in range(0, height, self.cell_size):
             pygame.draw.line(surface, (100, 100, 100), (0, y), (width, y))
     
-    def draw_all_debug(self, player, col_manager, enemy_group):
+    def draw_all_debug(self, player, col_manager, enemy_group, fps, camera_offset):
         self.current_y = 20
         x_pos = 50
 
-        if self.debug_settings.get('speed') == "True":
+        if self.debug_settings.get('fps'):
+            self.draw_debug(self.screen, "FPS", fps, (x_pos, self.current_y))
+            self.current_y += 30
+
+        if self.debug_settings.get('enemy'):
+            self.draw_debug(self.screen, "Enemy", len(enemy_group), (x_pos, self.current_y))
+            self.current_y += 30
+
+        if self.debug_settings.get('speed'):
             self.draw_debug(self.screen, "Speed", player.current_speed, (x_pos, self.current_y))
             self.current_y += 30
 
-        if self.debug_settings.get('checks') == "True":
+        if self.debug_settings.get('checks'):
             self.draw_debug(self.screen, "Checks", col_manager.get_checks(player, enemy_group), (x_pos, self.current_y))
             self.current_y += 30
 
-        if self.debug_settings.get('current_mode') == "True":
+        if self.debug_settings.get('current_mode'):
             self.draw_mode(self.screen, "Current Mode", col_manager.active_mode.__class__.__name__, (x_pos, self.current_y))
             self.current_y += 30
 
-        if self.debug_settings.get('9Ngrid') == "True":
+        if self.debug_settings.get('9Ngrid'):
             self.draw_grid(self.screen_height, self.screen_width, self.screen)
+
+        if self.debug_settings.get('quad_tree'):
+            active_mode = col_manager.active_mode
+            if hasattr(active_mode, 'root') and active_mode.root:
+                active_mode.root.draw_debug(self.screen, camera_offset)

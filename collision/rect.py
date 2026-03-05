@@ -48,3 +48,15 @@ class mycustomrect:
     @property
     def bottomright(self):
         return (self.x + self.width, self.y + self.height)
+    
+    def contains(self, other): #aabb
+        return (other.left >= self.left and
+                other.right <= self.right and
+                other.top >= self.top and
+                other.bottom <= self.bottom)
+    
+    def intersects(self, other):
+        return not (other.left > self.right or 
+                    other.right < self.left or 
+                    other.top > self.bottom or 
+                    other.bottom < self.top)
