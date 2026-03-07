@@ -33,12 +33,12 @@ class Enemy(pygame.sprite.Sprite):
 
         start_x = random.randint(0, width - self.image.get_width())
         start_y = random.randint(0, height - self.image.get_height())
-        self.rect = mycustomrect(start_x, start_y, self.image.get_width(), self.image.get_height())
+        self.rect = self.image.get_rect(topleft=(int(start_x), int(start_y)))
     
         # self.state = random.choice([EnemyState.Idle, EnemyState.Chase])
         self.state = EnemyState.Chase
 
-        self.speed = data.get("Speed", 1)
+        self.speed = data.get("speed", 1)
         self.direction = pygame.math.Vector2(0, 0)
   
     def update(self, player_pos):
@@ -48,7 +48,7 @@ class Enemy(pygame.sprite.Sprite):
 
             if enemy_vec.distance_to(player_vec) > 5:
                 self.direction = (player_vec - enemy_vec).normalize()
-                self.rect.x += self.direction.x * self.speed
-                self.rect.y += self.direction.y * self.speed
+                self.rect.x += int(self.direction.x * self.speed)
+                self.rect.y += int(self.direction.y * self.speed)
         else:
             pass

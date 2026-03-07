@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         centerX = screen_cfg.get("width", 1280)/2
         centerY = screen_cfg.get("height", 800)/2
 
-        self.rect = mycustomrect(centerX, centerY, self.image.get_width(), self.image.get_height())
+        self.rect = self.image.get_rect(center=(int(centerX), int(centerY)))
         
         self.pos = pygame.math.Vector2(self.rect.x, self.rect.y)
         self.vector = pygame.math.Vector2(0, 0)
@@ -68,6 +68,6 @@ class Player(pygame.sprite.Sprite):
         else:
             self.current_speed = 0
         
-        self.rect.x = self.pos.x
-        self.rect.y = self.pos.y
+        self.rect.x = int(self.pos.x)
+        self.rect.y = int(self.pos.y)
         

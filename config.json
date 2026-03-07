@@ -32,8 +32,8 @@
         "x": 0,
         "y": 0,
         "max_hp": 100,
-        "speed": 0,
-        "enemy_limit": 1
+        "speed": 3,
+        "enemy_limit": 100
     },
     "debug":{
         "fps": true,
@@ -44,5 +44,14 @@
         "9Ngrid": false,
         "dualgrid": false,
         "quad_tree": true
-    }
+    },
+    "autofire": {
+        "enabled": true,
+        "cooldown": 400,
+        "detect_range": 450,
+        "bullet_speed": 14,
+        "bullet_damage": 1,
+        "bullet_size": 10,
+        "bullet_lifetime": 50
+}
 }
