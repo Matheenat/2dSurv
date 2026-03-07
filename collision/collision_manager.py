@@ -3,6 +3,7 @@ from .bruteforce import BruteForce
 from .spatial_partitioning.nineneighbor import NineNeighbor
 from .spatial_partitioning.offsetgrid import OffSetGrid
 from .quad_tree.quadtree import QuadTree
+from .SweepNPrune import SweepNPrune
 
 class CollisionManager:
     def __init__(self):
@@ -12,7 +13,8 @@ class CollisionManager:
             BruteForce(),
             NineNeighbor(),
             OffSetGrid(),
-            QuadTree(self.screen_rect)
+            QuadTree(self.screen_rect),
+            SweepNPrune()
         ]
         self.active_mode = self.modes[0]
 
@@ -26,11 +28,13 @@ class CollisionManager:
                 self.idx = 2
             elif event.key == pygame.K_4:
                 self.idx = 3
+            elif event.key == pygame.K_5:
+                self.idx = 4
 
     def update(self, player, enemies, screen_rect):
         self.active_mode = self.modes[self.idx]
         self.active_mode.run(player, enemies, screen_rect)
         self.screen_rect = screen_rect
 
-    def get_checks(self, player, enemies):
+    def get_checks(self):
         return self.active_mode.checks
