@@ -117,4 +117,4 @@ class Game:
         fps = self.clock.get_fps()
         camera_offset = self.all_sprites.offset
         self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, fps, camera_offset)
-        pygame.display.flip()
+        

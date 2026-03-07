@@ -46,7 +46,7 @@
         "quad_tree": true
     },
     "autofire": {
-        "enabled": true,
+        "enabled": false,
         "cooldown": 400,
         "detect_range": 450,
         "bullet_speed": 14,

@@ -82,7 +82,7 @@ class ui():
             self.current_y += 30
 
         if self.debug_settings.get('checks'):
-            self.draw_debug(self.screen, "Checks", col_manager.get_checks(player, enemy_group), (x_pos, self.current_y))
+            self.draw_debug(self.screen, "Checks", col_manager.get_checks(), (x_pos, self.current_y))
             self.current_y += 30
 
         if self.debug_settings.get('current_mode'):
