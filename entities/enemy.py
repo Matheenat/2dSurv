@@ -1,12 +1,12 @@
 import enum
-import pygame  # type: ignore
+import pygame
 import math
 from typing import TypedDict
-import constant_value 
-from sprites import sprite_loader 
+import core.constant_value as constant_value 
+from utils.sprites import sprite_loader 
 from enum import Enum, auto
 import random
-from collision.rect import mycustomrect
+from system.collision.rect import mycustomrect
 
 class EnemyState(Enum):
     Idle = auto()

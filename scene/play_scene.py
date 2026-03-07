@@ -1,7 +1,6 @@
 import os
 import pygame
-from game import Game
-
+from core.game import Game
 
 class PlayScene:
     def __init__(self, screen, clock, change_scene_callback, transition):
@@ -15,7 +14,7 @@ class PlayScene:
         self.transition.start(mode="in")
         self.leaving_scene = False
 
-        base_dir = os.path.dirname(__file__)
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         fonts_dir = os.path.join(base_dir, "assets", "fonts")
         menu_font_path = os.path.join(fonts_dir, "VCR_OSD_MONO_1.001.ttf")
         small_font_path = os.path.join(fonts_dir, "Minecraftia-Regular.ttf")

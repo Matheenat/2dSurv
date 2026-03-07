@@ -1,19 +1,20 @@
 import pygame
 import json
-import user_ui
-from player import Player
-from sprites import sprite_loader
-from camera import CameraGroup
-from enemy import Enemy
-from collision.rect import mycustomrect
-from collision.collision_manager import CollisionManager
-from background import Background
-from autofire import AutoFire
+import UI.user_ui as user_ui
+from entities.player import Player
+from utils.sprites import sprite_loader
+from core.camera import CameraGroup
+from entities.enemy import Enemy
+from system.collision.rect import mycustomrect
+from system.collision.collision_manager import CollisionManager
+from system.background import Background
+from system.autofire import AutoFire
+import core.constant_value as constant_value
 
 
 class Game:
     def __init__(self, screen, clock):
-        with open('config.json', 'r') as f:
+        with open(constant_value.CONFIG_PATH, 'r', encoding='utf-8') as f:
             self.data = json.load(f)
 
         self.screen = screen

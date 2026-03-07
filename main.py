@@ -1,8 +1,8 @@
 import pygame
-from scene_manager import SceneManager
-from menu_scene import MenuScene
-from play_scene import PlayScene
-from transition import FadeTransition
+from core.scene_manager import SceneManager
+from scene.menu_scene import MenuScene
+from scene.play_scene import PlayScene
+from core.transition import FadeTransition
 
 pygame.init()
 

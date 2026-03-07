@@ -1,5 +1,5 @@
-from collision.rect import mycustomrect
-import pygame # type: ignore
+from system.collision.rect import mycustomrect
+import pygame
 class Node:
     def __init__(self, screen, depth = 0, max_depth = 7, capacity = 3):
         self.rect = screen

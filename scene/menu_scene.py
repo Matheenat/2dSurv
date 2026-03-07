@@ -1,7 +1,6 @@
 import os
 import pygame
 
-
 class MenuScene:
     def __init__(self, screen, clock, change_scene_callback, transition,
                  toggle_fullscreen_callback, get_fullscreen_state_callback):
@@ -16,7 +15,7 @@ class MenuScene:
         self.show_how_to_play = False
         self.show_settings = False
 
-        base_dir = os.path.dirname(__file__)
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         fonts_dir = os.path.join(base_dir, "assets", "fonts")
 
         title_font_path = os.path.join(fonts_dir, "Daydream DEMO.otf")

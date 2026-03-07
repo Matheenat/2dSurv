@@ -1,6 +1,6 @@
 import os
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 CONFIG_PATH = os.path.join(ROOT_DIR, "config.json")
 def clamp(value: int, max_value: int, min_value: int) -> int:

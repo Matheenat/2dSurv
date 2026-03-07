@@ -1,4 +1,4 @@
-from collision.algorithm_base import CollisionAlgorithm
+from system.collision.algorithm_base import CollisionAlgorithm
 from .node import Node
 
 class QuadTree(CollisionAlgorithm):

@@ -1,7 +1,7 @@
-import pygame # type: ignore
+import pygame
 from typing import TypedDict
 from enum import Enum, auto
-from collision.rect import mycustomrect
+from system.collision.rect import mycustomrect
 
 class PlayerState(Enum):
     IDLE = auto()

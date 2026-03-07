@@ -1,8 +1,8 @@
 import os
-import pygame # type: ignore
+import pygame
 from typing import TypedDict
-import constant_value 
-from sprites import sprite_loader 
+import core.constant_value as constant_value 
+from utils.sprites import sprite_loader 
 #
 # FILE USER UI สำหรับ UI อย่างเดียวใครทำอย่างอื่นขอให้แฟนไม่รัก
 #

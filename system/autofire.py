@@ -1,5 +1,5 @@
 import pygame
-from bullet import Bullet
+from entities.bullet import Bullet
 
 
 class AutoFire:
