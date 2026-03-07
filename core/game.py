@@ -102,7 +102,7 @@ class Game:
         if self.game_over:
             self.all_sprites.center_target_camera(self.player)
             self.damage_number_manager.update(16)
-            self.health_bar_ui.update(16)
+            self.health_bar_ui.update(16,self.player.health.hp,self.player.health.max_hp)
             return
 
         self.player.update()
@@ -123,7 +123,7 @@ class Game:
         self.all_sprites.center_target_camera(self.player)
 
         self.damage_number_manager.update(16)
-        self.health_bar_ui.update(16)
+        self.health_bar_ui.update(16,self.player.health.hp,self.player.health.max_hp)
 
         if self.damage_flash_timer > 0:
             self.damage_flash_timer -= 16

@@ -7,13 +7,14 @@ class HealthBarUI:
 
         self.bar_width = 240
         self.bar_height = 22
-
+        
         self.margin_x = 40
         self.margin_y = 35
 
         self.bg_color = (45, 45, 45)
         self.fill_color = (200, 50, 50)
         self.low_hp_color = (255, 70, 70)
+        self.trail_color = (255, 170, 70)  
         self.border_color = (255, 255, 255)
         self.text_color = (255, 255, 255)
         self.shadow_color = (0, 0, 0, 110)
@@ -22,22 +23,47 @@ class HealthBarUI:
         self.segment_gap = 3
 
         self.low_hp_threshold = 0.3
-        self.blink_interval = 250 
+        self.blink_interval = 250  
         self.blink_timer = 0
         self.blink_on = True
 
-    def update(self, dt):
+        self.display_hp = None
+        self.display_speed = 0.12 
+
+    def update(self, dt, current_hp, max_hp):
         self.blink_timer += dt
         if self.blink_timer >= self.blink_interval:
             self.blink_timer = 0
             self.blink_on = not self.blink_on
 
+        if self.display_hp is None:
+            self.display_hp = float(current_hp)
+
+        if current_hp > self.display_hp:
+            self.display_hp = float(current_hp)
+
+        elif current_hp < self.display_hp:
+            diff = self.display_hp - current_hp
+            self.display_hp -= diff * self.display_speed
+
+            if abs(self.display_hp - current_hp) < 0.3:
+                self.display_hp = float(current_hp)
+
+        if max_hp > 0:
+            self.display_hp = max(0, min(self.display_hp, max_hp))
+
     def draw(self, screen, hp, max_hp):
         if max_hp <= 0:
             return
 
+        if self.display_hp is None:
+            self.display_hp = float(hp)
+
         ratio = hp / max_hp
         ratio = max(0, min(1, ratio))
+
+        display_ratio = self.display_hp / max_hp
+        display_ratio = max(0, min(1, display_ratio))
 
         x = screen.get_width() - self.bar_width - self.margin_x
         y = self.margin_y
@@ -80,6 +106,7 @@ class HealthBarUI:
         segment_width = (self.bar_width - total_gap) / self.segment_count
 
         filled_segments = ratio * self.segment_count
+        display_segments = display_ratio * self.segment_count
 
         for i in range(self.segment_count):
             seg_x = x + i * (segment_width + self.segment_gap)
@@ -87,10 +114,17 @@ class HealthBarUI:
 
             pygame.draw.rect(screen, (65, 65, 65), seg_rect, border_radius=4)
 
+            trail_amount = max(0, min(1, display_segments - i))
+            if trail_amount > 0:
+                trail_width = int(segment_width * trail_amount)
+                trail_rect = pygame.Rect(int(seg_x), bar_y, trail_width, self.bar_height)
+                pygame.draw.rect(screen, self.trail_color, trail_rect, border_radius=4)
+
+
             fill_amount = max(0, min(1, filled_segments - i))
             if fill_amount > 0:
-                inner_width = int(segment_width * fill_amount)
-                fill_rect = pygame.Rect(int(seg_x), bar_y, inner_width, self.bar_height)
+                fill_width = int(segment_width * fill_amount)
+                fill_rect = pygame.Rect(int(seg_x), bar_y, fill_width, self.bar_height)
                 pygame.draw.rect(screen, current_fill_color, fill_rect, border_radius=4)
 
         pygame.draw.rect(screen, self.border_color, bar_rect, width=2, border_radius=8)
