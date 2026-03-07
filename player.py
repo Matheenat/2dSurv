@@ -23,9 +23,8 @@ class Player(pygame.sprite.Sprite):
         sprite_name = data.get("sprite", "player/hero.png")
         self.image = sprite_loader.load(sprite_name, scale=True)
 
-        screen_cfg = self.config.get("screen", {})
-        centerX = screen_cfg.get("width", 1280)/2
-        centerY = screen_cfg.get("height", 800)/2
+        centerX = self.screen.get_width() / 2
+        centerY = self.screen.get_height() / 2
 
         self.rect = self.image.get_rect(center=(int(centerX), int(centerY)))
         
