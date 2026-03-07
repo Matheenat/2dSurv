@@ -28,13 +28,14 @@
         "scale" : 1,
         "sprite_name" : "slime"
     },
-    "enemy_setting":{
-        "x": 0,
-        "y": 0,
-        "max_hp": 100,
-        "speed": 3,
-        "damage": 10,
-        "enemy_limit": 100
+    "enemy_setting": {
+    "x": 0,
+    "y": 0,
+    "max_hp": 100,
+    "speed": 3,
+    "enemy_limit": 100,
+    "spawn_margin": 120,
+    "min_spawn_distance": 220
     },
     "debug":{
         "fps": true,

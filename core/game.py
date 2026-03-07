@@ -79,18 +79,18 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_k:
                     for _ in range(10):
-                        new_enemy = Enemy(self.screen, self.loader, self.data)
+                        new_enemy = Enemy(self.screen, self.loader, self.data, self.player.pos)
                         self.all_sprites.add(new_enemy)
                         self.enemy_group.add(new_enemy)
 
-            self.col_manager.input_handle(event)
+                        self.col_manager.input_handle(event)
 
     def spawn_enemies(self):
         current_time = pygame.time.get_ticks()
 
         if len(self.enemy_group) < self.num_enemies:
             if current_time - self.last_spawn_time > self.spawn_delay:
-                new_enemy = Enemy(self.screen, self.loader, self.data)
+                new_enemy = Enemy(self.screen, self.loader, self.data, self.player.pos)
                 self.enemy_group.add(new_enemy)
                 self.all_sprites.add(new_enemy)
                 self.last_spawn_time = current_time
