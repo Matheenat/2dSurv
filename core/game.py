@@ -76,14 +76,14 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
 
+            self.col_manager.input_handle(event)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_k:
                     for _ in range(10):
                         new_enemy = Enemy(self.screen, self.loader, self.data, self.player.pos)
                         self.all_sprites.add(new_enemy)
                         self.enemy_group.add(new_enemy)
-
-                        self.col_manager.input_handle(event)
 
     def spawn_enemies(self):
         current_time = pygame.time.get_ticks()
@@ -131,7 +131,7 @@ class Game:
             self.game_over = True
             self.death_effect.start()
 
-        self.col_manager.update(self.player, self.enemy_group, self.screen_rect)
+        self.col_manager.update(self.player,self.enemy_group,self.screen_rect,self.clock)
         self.spawn_enemies()
         self.all_sprites.center_target_camera(self.player)
 

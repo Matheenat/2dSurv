@@ -86,7 +86,7 @@ class ui():
             self.current_y += 30
 
         if self.debug_settings.get('current_mode'):
-            self.draw_mode(self.screen, "Current Mode", col_manager.active_mode.__class__.__name__, (x_pos, self.current_y))
+            self.draw_mode(self.screen, "Current Mode", col_manager.get_current_mode_name(), (x_pos, self.current_y))
             self.current_y += 30
 
         if self.debug_settings.get('9Ngrid'):

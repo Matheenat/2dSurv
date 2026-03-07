@@ -39,7 +39,7 @@
     },
     "debug":{
         "fps": true,
-        "enemy": true,
+        "enemy": false,
         "speed": false,
         "current_mode": true,
         "checks": true,
