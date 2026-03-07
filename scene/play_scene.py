@@ -71,7 +71,7 @@ class PlayScene:
                 continue
 
             if event.type == pygame.KEYDOWN:
-                if self.game.game_over:
+                if self.game.game_over and self.game.death_effect.text_timer > 800:
                     if event.key == pygame.K_m:
                         self.leaving_scene = True
                         self.transition.start(

@@ -10,9 +10,9 @@ from system.collision.collision_manager import CollisionManager
 from system.background import Background
 from system.autofire import AutoFire
 import core.constant_value as constant_value
-from UI.game_over_ui import GameOverUI
 from UI.health_bar_ui import HealthBarUI
 from UI.damage_number_manager import DamageNumberManager
+from system.death.death_effect import DeathEffect
 
 class Game:
     def __init__(self, screen, clock):
@@ -52,12 +52,13 @@ class Game:
         self.autofire = AutoFire(self.bullet_group,self.all_sprites,self.data.get("autofire", {}))
 
         self.game_over = False
-        self.game_over_ui = GameOverUI()
 
         self.health_bar_ui = HealthBarUI(self.ui.fonts['ui'])
         self.damage_number_manager = DamageNumberManager(self.ui.fonts['ui'])
         self.damage_flash_timer = 0
         self.damage_flash_duration = 150
+
+        self.death_effect = DeathEffect()
 
     def on_resize(self, new_screen):
         self.screen = new_screen
@@ -95,14 +96,25 @@ class Game:
                 self.last_spawn_time = current_time
 
     def update(self):
+        slow = self.death_effect.get_slow_multiplier()
+        dt = 16 * slow
+
         self.camera_rectx = self.all_sprites.offset.x
         self.camera_recty = self.all_sprites.offset.y
         self.screen_rect = mycustomrect(self.camera_rectx,self.camera_recty,self.screen_width,self.screen_height)
 
         if self.game_over:
             self.all_sprites.center_target_camera(self.player)
-            self.damage_number_manager.update(16)
-            self.health_bar_ui.update(16,self.player.health.hp,self.player.health.max_hp)
+
+            self.damage_number_manager.update(dt)
+            self.health_bar_ui.update(dt,self.player.health.hp,self.player.health.max_hp)
+
+            if self.damage_flash_timer > 0:
+                self.damage_flash_timer -= dt
+                if self.damage_flash_timer < 0:
+                    self.damage_flash_timer = 0
+
+            self.death_effect.update(dt)
             return
 
         self.player.update()
@@ -115,24 +127,31 @@ class Game:
 
         self.check_player_enemy_collision()
 
-        if self.player.health.dead:
+        if self.player.health.dead and not self.game_over:
             self.game_over = True
+            self.death_effect.start()
 
         self.col_manager.update(self.player, self.enemy_group, self.screen_rect)
         self.spawn_enemies()
         self.all_sprites.center_target_camera(self.player)
 
-        self.damage_number_manager.update(16)
-        self.health_bar_ui.update(16,self.player.health.hp,self.player.health.max_hp)
+        self.damage_number_manager.update(dt)
+        self.health_bar_ui.update(dt,self.player.health.hp,self.player.health.max_hp)
 
         if self.damage_flash_timer > 0:
-            self.damage_flash_timer -= 16
+            self.damage_flash_timer -= dt
             if self.damage_flash_timer < 0:
                 self.damage_flash_timer = 0
 
+        self.death_effect.update(dt)
+
     def draw(self):
         self.screen.fill((0, 0, 0))
-        self.background.draw(self.screen, self.all_sprites.offset.x, self.all_sprites.offset.y)
+
+        shake_x, shake_y = self.death_effect.get_shake_offset()
+
+        self.background.draw(self.screen,self.all_sprites.offset.x + shake_x,self.all_sprites.offset.y + shake_y)
+
         self.all_sprites.custom_draw(self.player)
 
         fps = self.clock.get_fps()
@@ -151,8 +170,10 @@ class Game:
             flash.fill((255, 0, 0, alpha))
             self.screen.blit(flash, (0, 0))
 
+        self.death_effect.draw_red_overlay(self.screen)
+
         if self.game_over:
-            self.game_over_ui.draw(self.screen)
+            self.death_effect.draw_game_over(self.screen,self.ui.fonts['big'],self.ui.fonts['ui'])
 
     def check_player_enemy_collision(self):
         if self.player.health.dead:
