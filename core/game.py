@@ -10,7 +10,7 @@ from system.collision.collision_manager import CollisionManager
 from system.background import Background
 from system.autofire import AutoFire
 import core.constant_value as constant_value
-
+from UI.game_over_ui import GameOverUI
 
 class Game:
     def __init__(self, screen, clock):
@@ -47,11 +47,10 @@ class Game:
 
         self.background = Background(64)
 
-        self.autofire = AutoFire(
-            self.bullet_group,
-            self.all_sprites,
-            self.data.get("autofire", {})
-        )
+        self.autofire = AutoFire(self.bullet_group,self.all_sprites,self.data.get("autofire", {}))
+
+        self.game_over = False
+        self.game_over_ui = GameOverUI()
 
     def on_resize(self, new_screen):
         self.screen = new_screen
@@ -98,6 +97,10 @@ class Game:
             self.screen_height
         )
 
+        if self.game_over:
+            self.all_sprites.center_target_camera(self.player)
+            return
+
         self.player.update()
         self.enemy_group.update(self.player.pos)
 
@@ -105,6 +108,11 @@ class Game:
         self.bullet_group.update()
 
         pygame.sprite.groupcollide(self.bullet_group, self.enemy_group, True, True)
+
+        self.check_player_enemy_collision()
+
+        if self.player.health.dead:
+            self.game_over = True
 
         self.col_manager.update(self.player, self.enemy_group, self.screen_rect)
         self.spawn_enemies()
@@ -118,4 +126,22 @@ class Game:
         fps = self.clock.get_fps()
         camera_offset = self.all_sprites.offset
         self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, fps, camera_offset)
+
+        hp_text = self.ui.fonts['ui'].render(
+            f"HP: {self.player.health.hp}/{self.player.health.max_hp}",
+            True,
+            (255, 255, 255)
+        )
+        self.screen.blit(hp_text, (50, 170))
+
+        if self.game_over:
+            self.game_over_ui.draw(self.screen)
+
+    def check_player_enemy_collision(self):
+        if self.player.health.dead:
+            return
+
+        hit_enemy = pygame.sprite.spritecollideany(self.player, self.enemy_group)
+        if hit_enemy:
+            self.player.health.take_damage(hit_enemy.damage)
         

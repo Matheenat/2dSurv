@@ -71,6 +71,15 @@ class PlayScene:
                 continue
 
             if event.type == pygame.KEYDOWN:
+                if self.game.game_over:
+                    if event.key == pygame.K_m:
+                        self.leaving_scene = True
+                        self.transition.start(
+                            mode="out",
+                            on_complete=lambda: self.change_scene("menu")
+                        )
+                    continue
+
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
                     continue

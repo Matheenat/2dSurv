@@ -2,6 +2,7 @@ import pygame
 from typing import TypedDict
 from enum import Enum, auto
 from system.collision.rect import mycustomrect
+from system.health.health_system import HealthSystem
 
 class PlayerState(Enum):
     IDLE = auto()
@@ -34,6 +35,9 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'left'
         self.max_hp = data.get("max_hp", 100)
         self.speed = data.get("speed", 5)
+
+        self.health = HealthSystem(self.max_hp, invincible_duration=500)
+        self.current_speed = 0
 
     def flip_image(self):
         self.image = pygame.transform.flip(self.image, flip_x=True, flip_y=False)
@@ -69,4 +73,6 @@ class Player(pygame.sprite.Sprite):
         
         self.rect.x = int(self.pos.x)
         self.rect.y = int(self.pos.y)
+
+        self.health.update(16)
         
