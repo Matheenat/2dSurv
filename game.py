@@ -44,13 +44,10 @@ class Game:
         self.autofire = AutoFire(self.bullet_group,self.all_sprites,self.data.get("autofire", {})
 )
 
-    def handle_events(self):
-        for event in pygame.event.get():
+    def handle_events(self, events):
+        for event in events:
             if event.type == pygame.QUIT:
-                self.running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.running = False
+                self.running = False    
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_k:
                     new_enemy = Enemy(self.screen, self.loader, self.data)
@@ -95,6 +92,3 @@ class Game:
         fps = self.clock.get_fps()
         camera_offset = self.all_sprites.offset
         self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, fps, camera_offset)
-
-        self.clock.tick(60)
-        pygame.display.flip()
