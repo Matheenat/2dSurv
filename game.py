@@ -49,9 +49,10 @@ class Game:
                     self.running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_k:
-                    new_enemy = Enemy(self.screen, self.loader, self.data)
-                    self.all_sprites.add(new_enemy)
-                    self.enemy_group.add(new_enemy)
+                    for _ in range(10):
+                        new_enemy = Enemy(self.screen, self.loader, self.data)
+                        self.all_sprites.add(new_enemy)
+                        self.enemy_group.add(new_enemy)
 
             self.col_manager.input_handle(event)
     
@@ -80,6 +81,6 @@ class Game:
         self.screen.fill((0, 0, 0))
         self.background.draw(self.screen,self.all_sprites.offset.x,self.all_sprites.offset.y)
         self.all_sprites.custom_draw(self.player)
-        self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group)
+        self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, self.clock.get_fps(), self.all_sprites.offset)
         self.clock.tick(60)
         pygame.display.flip()
