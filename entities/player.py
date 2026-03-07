@@ -39,6 +39,8 @@ class Player(pygame.sprite.Sprite):
         self.health = HealthSystem(self.max_hp, invincible_duration=500)
         self.current_speed = 0
 
+        self.flash_interval = 80
+
     def flip_image(self):
         self.image = pygame.transform.flip(self.image, flip_x=True, flip_y=False)
 
@@ -75,4 +77,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = int(self.pos.y)
 
         self.health.update(16)
-        
+
+    def is_visible(self):
+        if not self.health.is_invincible():
+            return True
+
+        blink_phase = int(self.health.invincible_timer // self.flash_interval) % 2
+        return blink_phase == 0

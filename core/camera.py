@@ -25,5 +25,8 @@ class CameraGroup(pygame.sprite.LayeredUpdates):
             self.change_layer(sprite, sprite.rect.bottom)
 
         for sprite in self.sprites():
+            if hasattr(sprite, "is_visible"):
+                if not sprite.is_visible():
+                    continue
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)

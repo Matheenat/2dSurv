@@ -11,6 +11,8 @@ from system.background import Background
 from system.autofire import AutoFire
 import core.constant_value as constant_value
 from UI.game_over_ui import GameOverUI
+from UI.health_bar_ui import HealthBarUI
+from UI.damage_number_manager import DamageNumberManager
 
 class Game:
     def __init__(self, screen, clock):
@@ -52,6 +54,11 @@ class Game:
         self.game_over = False
         self.game_over_ui = GameOverUI()
 
+        self.health_bar_ui = HealthBarUI(self.ui.fonts['ui'])
+        self.damage_number_manager = DamageNumberManager(self.ui.fonts['ui'])
+        self.damage_flash_timer = 0
+        self.damage_flash_duration = 150
+
     def on_resize(self, new_screen):
         self.screen = new_screen
         self.screen_width = self.screen.get_width()
@@ -90,15 +97,12 @@ class Game:
     def update(self):
         self.camera_rectx = self.all_sprites.offset.x
         self.camera_recty = self.all_sprites.offset.y
-        self.screen_rect = mycustomrect(
-            self.camera_rectx,
-            self.camera_recty,
-            self.screen_width,
-            self.screen_height
-        )
+        self.screen_rect = mycustomrect(self.camera_rectx,self.camera_recty,self.screen_width,self.screen_height)
 
         if self.game_over:
             self.all_sprites.center_target_camera(self.player)
+            self.damage_number_manager.update(16)
+            self.health_bar_ui.update(16)
             return
 
         self.player.update()
@@ -118,6 +122,14 @@ class Game:
         self.spawn_enemies()
         self.all_sprites.center_target_camera(self.player)
 
+        self.damage_number_manager.update(16)
+        self.health_bar_ui.update(16)
+
+        if self.damage_flash_timer > 0:
+            self.damage_flash_timer -= 16
+            if self.damage_flash_timer < 0:
+                self.damage_flash_timer = 0
+
     def draw(self):
         self.screen.fill((0, 0, 0))
         self.background.draw(self.screen, self.all_sprites.offset.x, self.all_sprites.offset.y)
@@ -127,12 +139,17 @@ class Game:
         camera_offset = self.all_sprites.offset
         self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, fps, camera_offset)
 
-        hp_text = self.ui.fonts['ui'].render(
-            f"HP: {self.player.health.hp}/{self.player.health.max_hp}",
-            True,
-            (255, 255, 255)
-        )
-        self.screen.blit(hp_text, (50, 170))
+        self.health_bar_ui.draw(self.screen,self.player.health.hp,self.player.health.max_hp)
+
+        self.damage_number_manager.draw(self.screen, self.all_sprites.offset)
+
+        if self.damage_flash_timer > 0:
+            alpha_ratio = self.damage_flash_timer / self.damage_flash_duration
+            alpha = int(90 * alpha_ratio)
+
+            flash = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+            flash.fill((255, 0, 0, alpha))
+            self.screen.blit(flash, (0, 0))
 
         if self.game_over:
             self.game_over_ui.draw(self.screen)
@@ -143,5 +160,14 @@ class Game:
 
         hit_enemy = pygame.sprite.spritecollideany(self.player, self.enemy_group)
         if hit_enemy:
-            self.player.health.take_damage(hit_enemy.damage)
+            did_take = self.player.health.take_damage(hit_enemy.damage)
+
+            if did_take:
+                self.damage_flash_timer = self.damage_flash_duration
+
+                self.damage_number_manager.spawn(
+                    self.player.rect.centerx,
+                    self.player.rect.top - 10,
+                    hit_enemy.damage
+                )
         
