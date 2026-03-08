@@ -11,6 +11,9 @@ class OffSetGrid(Grid):
         player_coord = self.get_cell_coord(player.rect.centerx,player.rect.centery)
         enemies = enemy_group.sprites() 
 
+
+        # สร้าง grid โดยสามารถขยับตำแหน่งด้วย offset ได้
+        # เพื่อใช้ทำ grid ซ้อนกัน 2 ชุด
         for enemy in enemies:
             key = self.get_cell_coord(enemy.rect.centerx + offset, enemy.rect.centery + offset)
             if key not in temp_grid:
@@ -20,7 +23,11 @@ class OffSetGrid(Grid):
         return temp_grid, player_coord
     
     def run(self, player, enemies, screen_rect):
+        # gridA = grid ปกติ
         self.gridA, _ = self.register(player, enemies, 0)
+
+        # gridB = grid ที่เลื่อนครึ่งช่อง
+        # ช่วยลดปัญหาวัตถุอยู่คาบเกี่ยวขอบ cell
         self.gridB, _ = self.register(player, enemies, self.cell_size // 2)
 
         self.checks = 0
@@ -29,25 +36,29 @@ class OffSetGrid(Grid):
         playerA = self.get_cell_coord(player.rect.centerx, player.rect.centery)
         playerB = self.get_cell_coord(player.rect.centerx + self.cell_size//2, player.rect.centery + self.cell_size//2)
 
+        # ตรวจ collision ในแต่ละ grid
         for current_grid in [self.gridA, self.gridB]:
             for current_cell in current_grid.values():            
                 for i in range(len(current_cell)):
                     for j in range(i + 1, len(current_cell)):
                         enemyA, enemyB = current_cell[i], current_cell[j]
 
+                        # กันการตรวจคู่เดิมซ้ำ
                         pair = tuple(sorted((id(enemyA), id(enemyB))))
                         if pair not in checked_pair:
                             self.checks += 1
                             self.AABB(enemyA, enemyB)
                             checked_pair.add(pair)
 
+            # ตรวจผู้เล่นกับศัตรูในช่องของ gridA
             player_cellA = self.gridA.get(playerA)
             if player_cellA:
                 for enemy in player_cellA:
                     if enemy is not player:
                         self.checks += 1
                         self.AABB(player, enemy)
-            
+                        
+            # ตรวจผู้เล่นกับศัตรูในช่องของ gridB
             player_cellB = self.gridB.get(playerB)
             if player_cellB:
                 for enemy in player_cellB:
