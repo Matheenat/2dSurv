@@ -39,7 +39,7 @@
     },
     "debug":{
         "fps": true,
-        "enemy": false,
+        "enemy": true,
         "speed": false,
         "current_mode": true,
         "checks": true,
@@ -48,7 +48,7 @@
         "quad_tree": true
     },
     "autofire": {
-        "enabled": true,
+        "enabled": false,
         "cooldown": 400,
         "detect_range": 450,
         "bullet_speed": 14,

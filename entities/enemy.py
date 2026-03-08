@@ -33,7 +33,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.state = EnemyState.Chase
         self.speed = data.get("speed", 1)
-        self.damage = data.get("damage", 10)
+        self.damage = 0
         self.direction = pygame.math.Vector2(0, 0)
 
     def get_spawn_position(self, width, height, player_pos):
