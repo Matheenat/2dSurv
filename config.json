@@ -21,7 +21,8 @@
         "max_hp" : 100,
         "speed" : 10,
         "current_exp": 0,
-        "target_exp": 100
+        "target_exp": 100,
+        "god_mode": false
     },
     "enemy_sprite":{
         "direction" : "left",
@@ -49,7 +50,7 @@
         "quad_tree": true
     },
     "autofire": {
-        "enabled": false,
+        "enabled": true,
         "cooldown": 400,
         "detect_range": 450,
         "bullet_speed": 14,

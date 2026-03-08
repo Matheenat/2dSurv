@@ -14,6 +14,12 @@ class AutoFire:
 
         self.last_shot_time = 0
 
+    def toggle_enabled(self):
+        self.enabled = not self.enabled
+
+    def set_enabled(self, value: bool):
+        self.enabled = value
+
     def get_nearest_enemy(self, player_pos, enemy_group):
         nearest_enemy = None
         nearest_distance = self.detect_range

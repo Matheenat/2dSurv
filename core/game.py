@@ -49,8 +49,9 @@ class Game:
 
         self.background = Background(64)
 
-        self.autofire = AutoFire(self.bullet_group,self.all_sprites,self.data.get("autofire", {}))
+        self.autofire = AutoFire(self.bullet_group, self.all_sprites, self.data.get("autofire", {}))
 
+        self.god_mode = self.data.get("player_settings", {}).get("god_mode", False)
         self.game_over = False
 
         self.health_bar_ui = HealthBarUI(self.ui.fonts['ui'])
@@ -79,7 +80,16 @@ class Game:
             self.col_manager.input_handle(event)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_k:
+                if event.key == pygame.K_F1:
+                    self.ui.toggle_debug()
+
+                elif event.key == pygame.K_g:
+                    self.god_mode = not self.god_mode
+
+                elif event.key == pygame.K_p:
+                    self.autofire.toggle_enabled()
+
+                elif event.key == pygame.K_k:
                     for _ in range(10):
                         new_enemy = Enemy(self.screen, self.loader, self.data, self.player.pos)
                         self.all_sprites.add(new_enemy)
@@ -156,7 +166,7 @@ class Game:
 
         fps = self.clock.get_fps()
         camera_offset = self.all_sprites.offset
-        self.ui.draw_all_debug(self.player, self.col_manager, self.enemy_group, fps, camera_offset)
+        self.ui.draw_all_debug(self.player,self.col_manager,self.enemy_group,fps,camera_offset,self.god_mode,self.autofire.enabled)
 
         self.health_bar_ui.draw(self.screen,self.player.health.hp,self.player.health.max_hp)
 
@@ -177,6 +187,9 @@ class Game:
 
     def check_player_enemy_collision(self):
         if self.player.health.dead:
+            return
+
+        if self.god_mode:
             return
 
         hit_enemy = pygame.sprite.spritecollideany(self.player, self.enemy_group)

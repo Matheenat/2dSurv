@@ -74,6 +74,9 @@ F11	                        Toggle fullscreen
 3	                        Use Grid
 4	                        Use QuadTree
 5	                        Use Sweep and Prune
+P                           disable auto-fire
+G                           turn on god mode
+F1                          toggle debug
 
 How to Run
 
