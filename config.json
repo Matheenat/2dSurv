@@ -33,6 +33,7 @@
     "y": 0,
     "max_hp": 100,
     "speed": 3,
+    "damage": 10,
     "enemy_limit": 100,
     "spawn_margin": 120,
     "min_spawn_distance": 220
