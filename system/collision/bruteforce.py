@@ -20,3 +20,4 @@ class BruteForce(CollisionAlgorithm):
             for j in range(i + 1, len(enemies)):
                 self.checks += 1
                 self.AABB(enemies[i], enemies[j])
+                

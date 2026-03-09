@@ -77,6 +77,7 @@ F11	                        Toggle fullscreen
 P                           disable auto-fire
 G                           turn on god mode
 F1                          toggle debug
+K                           summonn 10 enemies
 
 How to Run
 
